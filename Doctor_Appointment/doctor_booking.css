@@ -1,0 +1,155 @@
+/* External CSS styles for Doctor Booking */
+
+/* Reset default browser styles and set general styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+}
+
+/* Style for the container */
+.container {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Style for heading */
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #007bff;
+}
+
+/* Style for form elements */
+form {
+  display: grid;
+  gap: 15px;
+}
+
+/* Style for label group */
+.label-group {
+  font-weight: bold;
+}
+
+/* Style for input fields, textareas, and select */
+input[type="text"],
+input[type="tel"],
+textarea,
+select,
+input[type="date"],
+input[type="submit"],
+button[type="button"] {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Style for select dropdown */
+select {
+  height: 44px;
+}
+
+/* Style for form group */
+.form-group {
+  background-color: #f0f8ff;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+/* Style for submit button and custom button */
+input[type="submit"],
+button[type="button"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  padding: 12px 20px;
+}
+
+/* Hover and active styles for buttons */
+input[type="submit"]:hover,
+button[type="button"]:hover,
+input[type="submit"]:active,
+button[type="button"]:active {
+  background-color: #0056b3;
+}
+
+/* Styling for error messages */
+input:invalid,
+select:invalid,
+textarea:invalid {
+  border-color: #ff7f7f;
+}
+
+input:invalid + span,
+select:invalid + span,
+textarea:invalid + span {
+  color: #ff7f7f;
+  font-size: 14px;
+  display: block;
+  margin-top: 5px;
+}
+
+/* Styling for doctor selection */
+#doctorList {
+  margin-top: 20px;
+  text-align: center;
+}
+
+#doctor {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  font-size: 16px;
+}
+
+/* Styling for doctor image and name */
+#doctorImage {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#doctorImage img {
+  max-width: 100%;
+  border-radius: 50%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Styling for voice input button */
+.voice-input-button {
+  background-color: #5bc0de;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 8px 15px;
+  transition: background-color 0.3s, color 0.3s;
+  margin-top: 10px;
+}
+
+.voice-input-button:hover,
+.voice-input-button:active {
+  background-color: #349fd2;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  .container {
+    max-width: 100%;
+    margin: 10px;
+  }
+  /* Adjust other styles for smaller screens */
+}

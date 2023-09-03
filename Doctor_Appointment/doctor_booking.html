@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Doctor Appointment</title>
+  <link rel="stylesheet" type="text/css" href="doctor_booking.css">
+  <script>
+    function validateBookingForm() {
+      var name = document.getElementById("name").value;
+      var locality = document.getElementById("locality").value;
+      var specialty = document.getElementById("specialty").value;
+      var problem = document.getElementById("problem").value;
+      var date = document.getElementById("date").value;
+      var time = document.getElementById("time").value;
+      var contactNumber = document.getElementById("contactNumber").value;
+
+      if (name === "" || locality === "" || specialty === "" || problem === "" || date === "" || time === "" || contactNumber === "") {
+        alert("All fields are required");
+        return false;
+      }
+
+      return true;
+    }
+    
+
+    function populateTimes() {
+      var timeSelect = document.getElementById("time");
+
+      var startTime = 10 * 60; // 10 am in minutes
+      var endTime = 21 * 60;   // 9 pm in minutes
+      var interval = 15;       // 15 minutes interval
+
+      for (var i = startTime; i < endTime; i += interval) {
+        var hours = Math.floor(i / 60);
+        var minutes = i % 60;
+        var timeString = (hours < 10 ? "0" : "") + hours + ":" + (minutes === 0 ? "00" : minutes);
+
+        var option = document.createElement("option");
+        option.value = timeString;
+        option.textContent = timeString;
+        timeSelect.appendChild(option);
+      }
+    }
+
+    function startVoiceInput() {
+      const recognition = new webkitSpeechRecognition();
+      recognition.lang = 'en-US';
+      recognition.start();
+
+      recognition.onresult = (event) => {
+        const voiceInput = event.results[0][0].transcript;
+        const problemInput = document.getElementById("problem");
+        problemInput.value = voiceInput;
+        recognition.stop();
+      };
+
+      recognition.onend = () => {
+        console.log("Voice recognition ended.");
+      };
+    }
+
+    const doctorsData = {
+      cardiology: [
+        { name: "Dr.Kiran", photo: 'cardio-01.jpeg' },
+        { name: "Dr.Raghu Rama", photo: 'cardio-002.jpeg' },
+      ],
+      dermatology: [
+        { name: "Dr.Ravi Nayak", photo: 'Dermo-01.jpeg' },
+        { name: "Dr.Krishna", photo: 'Dermo-2.jpeg' },
+      ],
+      // Add more specialties and doctors
+    };
+
+    function loadDoctors() {
+      const specialty = document.getElementById("specialty").value;
+      const doctorListContainer = document.getElementById("doctorList");
+      doctorListContainer.innerHTML = ""; // Clear previous doctor list
+
+      const doctors = doctorsData[specialty];
+      if (doctors) {
+        const doctorSelect = document.createElement("select");
+        doctorSelect.id = "doctor";
+        doctorSelect.name = "doctor";
+        doctors.forEach((doctor) => {
+          const option = document.createElement("option");
+          option.value = doctor.name;
+          option.textContent = doctor.name;
+          doctorSelect.appendChild(option);
+        });
+
+        const imgContainer = document.createElement("div");
+        imgContainer.id = "doctorImage";
+        doctorListContainer.appendChild(doctorSelect);
+        doctorListContainer.appendChild(imgContainer);
+        doctorSelect.addEventListener("change", updateDoctorImage);
+      }
+    }
+
+    function updateDoctorImage() {
+      const selectedDoctor = document.getElementById("doctor").value;
+      const doctorImage = document.getElementById("doctorImage");
+
+      const specialty = document.getElementById("specialty").value;
+      const doctors = doctorsData[specialty];
+
+      const selectedDoctorInfo = doctors.find((doctor) => doctor.name === selectedDoctor);
+      if (selectedDoctorInfo) {
+        const img = document.createElement("img");
+        img.src = selectedDoctorInfo.photo;
+        img.alt = selectedDoctorInfo.name;
+        doctorImage.innerHTML = "";
+        doctorImage.appendChild(img);
+      } else {
+        doctorImage.innerHTML = "";
+      }
+
+      // Set the selected doctor's name in the hidden field
+      const selectedDoctorInput = document.getElementById("selectedDoctor");
+      selectedDoctorInput.value = selectedDoctor;
+    }
+  </script>
+</head>
+<body onload="populateTimes()">
+  <div class="container">
+    <h1>Doctor Appointment</h1>
+    <form name="bookingForm" action="submit_booking.php" onsubmit="return validateBookingForm()" method="post">
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="locality">Locality:</label>
+        <input type="text" id="locality" name="locality" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="specialty">Specialty:</label>
+        <select id="specialty" name="specialty" onchange="loadDoctors()" required>
+          <option value="cardiology">Cardiology</option>
+          <option value="dermatology">Dermatology</option>
+          <!-- Add more options for other specialties -->
+        </select>
+      </div>
+      
+      <div id="doctorList" class="doctor-list"></div>
+      
+      <div class="form-group">
+        <label for="problem">Problem:</label>
+        <textarea id="problem" name="problem" rows="4" cols="50" required></textarea>
+      </div>
+      
+      <div class="form-group">
+        <button type="button" onclick="startVoiceInput()">Start Voice Input</button>
+      </div>
+          
+      <div class="form-group">
+        <label for="date">Preferred Date:</label>
+        <input type="date" id="date" name="date" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="time">Preferred Time:</label>
+        <select id="time" name="time" required></select>
+      </div>
+      
+      <div class="form-group">
+        <label for="contactNumber">Contact Number:</label>
+        <input type="tel" id="contactNumber" name="contactNumber" required>
+      </div>
+      <input type="hidden" id="selectedDoctor" name="selectedDoctor">
+          
+      <div class="form-group">
+        <input type="submit" value="Book">
+      </div>
+    </form>
+  </div>
+</body>
+</html>
